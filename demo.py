@@ -5,7 +5,7 @@
 # Created: Monday, 29th March 2021 5:51:52 pm
 # Author: Andreas (amplejoe@gmail.com)
 # -----
-# Last Modified: Wednesday, 31st March 2021 3:57:48 am
+# Last Modified: Wednesday, 31st March 2021 4:08:55 am
 # Modified By: Andreas (amplejoe@gmail.com)
 # -----
 # Copyright (c) 2021 Klagenfurt University
@@ -156,6 +156,7 @@ def main():
 
         # get model config
         model_dir = utils.get_file_path(model)
+        model_name_full = utils.get_file_name(model, True)
         model_name = utils.get_file_name(model)
         configs = utils.get_files(model_dir, IN_CONFIGS)
         if len(configs) < 1:
@@ -192,7 +193,7 @@ def main():
             rel_video_folder = utils.get_file_path(
                 utils.path_to_relative_path(video, in_video_root)
             )
-            out_dir = utils.join_paths(out_root, rel_video_folder, video_name_full)
+            out_dir = utils.join_paths(out_root, rel_video_folder, video_name_full, model_name_full)
             out_video_file = utils.join_paths(
                 out_dir, f"{model_name}{video_name}{video_ext}"
             )
