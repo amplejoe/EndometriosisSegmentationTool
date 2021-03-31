@@ -5,7 +5,7 @@
 # Created: Monday, 29th March 2021 5:51:52 pm
 # Author: Andreas (amplejoe@gmail.com)
 # -----
-# Last Modified: Tuesday, 30th March 2021 6:43:04 am
+# Last Modified: Wednesday, 31st March 2021 3:57:48 am
 # Modified By: Andreas (amplejoe@gmail.com)
 # -----
 # Copyright (c) 2021 Klagenfurt University
@@ -49,10 +49,9 @@ def visualize_predictions(im, predictions):
     v = Visualizer(im[:, :, ::-1], scale=OUT_SCALE)
     v = v.draw_instance_predictions(predictions["instances"].to("cpu"))
     pred_im = v.get_image()[:, :, ::-1]
-    # pred_im_out = opencv_utils.overlay_text(pred_im, "Pred")
 
     # scale original
-    resized_im = opencv_utils.scale_image(pred_im, OUT_SCALE)
+    resized_im = utils.scale_image(pred_im, OUT_SCALE)
     return resized_im
 
 
@@ -94,7 +93,6 @@ def predict_video_generator(video, max_frames, predictor, visualizer, results):
 
         # extract prediction stuff (uncomment if other fields are needed)
         # how to use 'instances': https://detectron2.readthedocs.io/en/latest/modules/structures.html#detectron2.structures.Instances
-        # print(outputs["instances"].get_fields())
         if len(outputs["instances"]) > 0:
             results[cur_frame] = {
                 # "image_size": outputs["instances"].image_size,
@@ -107,7 +105,7 @@ def predict_video_generator(video, max_frames, predictor, visualizer, results):
                 "pred_classes": outputs["instances"].pred_classes.tolist(),
             }
             # DEBUG
-            # print(results[cur_frame])
+            # tqdm.write(results[cur_frame])
 
         # convert Matplotlib RGB format to OpenCV BGR format
         visualization = cv2.cvtColor(visualization.get_image(), cv2.COLOR_RGB2BGR)
@@ -120,42 +118,56 @@ def predict_video_generator(video, max_frames, predictor, visualizer, results):
 
 def main():
 
-    # root paths
-    in_root = utils.to_path(g_args["in"])
-    model_root = utils.to_path(g_args["models"])
-    out_root = f"{in_root}_{OUT_SUFFIX}"
+    # in videos
+    in_video_root = utils.get_file_path(g_args["in"])
+    in_videos = [utils.to_path(g_args["in"])]
+    if utils.exists_dir(g_args["in"]):
+        # folder given as input - get videos
+        in_video_root = utils.to_path(g_args["in"])
+        in_videos = utils.get_files(in_video_root, *VID_EXT)
+    # in models
+    in_model_root = utils.get_file_path(g_args["model"])
+    in_models = [utils.to_path(g_args["model"])]
+    if utils.exists_dir(g_args["model"]):
+        # folder given as input - get models
+        in_model_root = utils.to_path(g_args["model"])
+        in_models = utils.get_files(in_model_root, *MODEL_EXT)
+    # out path
+    out_root = f"{in_video_root}{OUT_SUFFIX}"
     if g_args["out"] is not None:
         out_root = utils.to_path(g_args["out"])
+
+    # sanity checks
+    if len(in_videos) == 0:
+        utils.abort("No videos found.")
+    if len(in_models) == 0:
+        utils.abort("No models found.")
+    if in_video_root == out_root:
+        utils.abort("Input root cannot be the same as output root.")
+
     # overwrite existing out paths
     if not utils.confirm_delete_path(out_root, "n"):
         print(
             "Using existing output folder - finished analyzed videos will not be overwritten!"
         )
 
-    # files
-    in_videos = utils.get_file_paths(in_root, *VID_EXT)
-    in_models = utils.get_file_paths(model_root, *MODEL_EXT)
-    if len(in_videos) == 0:
-        utils.abort("No videos found.")
-    if len(in_models) == 0:
-        utils.abort("No models found.")
-
     # MODEL LOOP
-    for model in tqdm(in_models, desc="models"):
+    for model in tqdm(in_models, desc="models", position=2, leave=True):
 
         # get model config
         model_dir = utils.get_file_path(model)
         model_name = utils.get_file_name(model)
-        configs = utils.get_file_paths(model_dir, IN_CONFIGS)
+        configs = utils.get_files(model_dir, IN_CONFIGS)
         if len(configs) < 1:
             tqdm.write(
                 f"No config file found in model folder, skipping model {model_name}"
             )
             continue
         config = configs[0]  # use 1st yaml file in model folder
-        print(f"Using config file: {config}")
         model_cfg = config
-        tqdm.write(f"model: {model}, config: {utils.get_file_name(config)}")
+        tqdm.write(
+            f"model: {utils.get_file_name(model, True)}, config: {utils.get_file_name(config, True)}"
+        )
 
         # load config
         cfg = get_cfg()
@@ -172,12 +184,15 @@ def main():
         )
 
         # VIDEO LOOP
-        for video in tqdm(in_videos, desc="videos"):
+        for video in tqdm(in_videos, desc="videos", position=1, leave=True):
             # out paths
+            video_name_full = utils.get_file_name(video, True)
             video_name = utils.get_file_name(video)
             video_ext = utils.get_file_ext(video)
-            rel_video_folder = utils.get_file_path(utils.path(video, in_root))
-            out_dir = utils.join_paths(out_root, rel_video_folder)
+            rel_video_folder = utils.get_file_path(
+                utils.path_to_relative_path(video, in_video_root)
+            )
+            out_dir = utils.join_paths(out_root, rel_video_folder, video_name_full)
             out_video_file = utils.join_paths(
                 out_dir, f"{model_name}{video_name}{video_ext}"
             )
@@ -189,12 +204,12 @@ def main():
 
             # is results file existing -> video has been fully analyzed, skip video
             if utils.exists_file(out_results_file):
-                print(
+                tqdm.write(
                     f"Result file already exists: {out_results_file}. Skipping video..."
                 )
                 continue
             elif utils.exists_file(out_video_file):
-                print(
+                tqdm.write(
                     f"Video file exists but results file is missing. Replacing video..."
                 )
                 utils.remove_file(out_video_file)
@@ -221,7 +236,9 @@ def main():
             vid_generator = predict_video_generator(
                 cap, num_frames, predictor, visualizer, prediction_results
             )
-            for visualization in tqdm(vid_generator, total=num_frames):
+            for visualization in tqdm(
+                vid_generator, desc="frames", total=num_frames, position=0, leave=True
+            ):
 
                 # DEBUG: test image output
                 # out_img_path = utils.join_paths(out_root, "test.png")
@@ -244,9 +261,8 @@ def main():
                     "predictions": prediction_results,
                 }
             )
-            out_results_file = utils.join_paths(out_root, f"{model_name}.json")
             utils.write_json(out_results_file, out_data)
-            print(f"Wrote {out_results_file}")
+            tqdm.write(f"Wrote {out_results_file}")
 
             # exec indicate_preds.py
             script_dir = utils.get_script_dir()
@@ -256,6 +272,7 @@ def main():
                 cmd_indicator,
                 False,
             )
+            print("After shell executed!!")
 
 
 def parse_args():
@@ -265,14 +282,14 @@ def parse_args():
         "-i",
         "--in",
         type=str,
-        help="path to input folder containing videos",
+        help="path to video or input folder containing videos",
         required=True,
     )
     ap.add_argument(
         "-m",
-        "--models",
+        "--model",
         type=str,
-        help="path to input model root folder containing model subfolders with their respectie config.yaml files",
+        help="path to input model or root folder containing multiple model subfolders with their respectie config.yaml files",
         required=True,
     )
     ap.add_argument(

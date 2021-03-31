@@ -1,24 +1,19 @@
 #!/usr/bin/env python
 
-# +++++++++++++++++++++++++++++++++++++++++++++++++
-#                         _       _
-#    __ _ _ __ ___  _ __ | | ___ (_) ___   ___
-#   / _` | '_ ` _ \| '_ \| |/ _ \| |/ _ \ / _ \
-#  | (_| | | | | | | |_) | |  __/| | (_) |  __/
-#   \__,_|_| |_| |_| .__/|_|\____/ |\___/ \___|
-#                  |_|         |__/
+###
+# File: indicate_preds.py
+# Created: Monday, 29th March 2021 5:51:52 pm
+# Author: Andreas (amplejoe@gmail.com)
+# -----
+# Last Modified: Wednesday, 31st March 2021 2:55:02 am
+# Modified By: Andreas (amplejoe@gmail.com)
+# -----
+# Copyright (c) 2021 Klagenfurt University
 #
-# +++++++++++++++++++++++++++++++++++++++++++++++++
-
-# @Author: Andreas <aleibets>
-# @Date: 2020-01-27T11:53:43+01:00
-# @Filename: main_template.py
-# @Last modified by: aleibets
-# @Last modified time: 2020-02-12T16:07:40+01:00
-# @description:
+###
 
 import argparse
-from py_utils import utils, opencv_utils
+import utils
 import sys
 import numpy as np
 from tqdm import tqdm
@@ -240,7 +235,7 @@ def main():
 
     # add indication to video
     out_video_file = utils.add_suffix_to_file(g_args["video"], OUT_SUFFIX)
-    bar_image = opencv_utils.get_image(video_bar_out)
+    bar_image = utils.get_image(video_bar_out)
 
     # video and properties
     cap = cv2.VideoCapture(g_args["video"])
@@ -267,14 +262,14 @@ def main():
         pbar.n = cur_frame + 1  # update pbar
         pbar.refresh()
         # paint current location indicator (horizontal line)
-        cur_bar_image = opencv_utils.draw_horizontal_line(
+        cur_bar_image = utils.draw_horizontal_line(
             bar_image, x_pos_percent=(cur_frame + 1) / num_frames, line_thickness=2
         )
-        res = opencv_utils.concatenate_images(frame, cur_bar_image, axis=0)
+        res = utils.concatenate_images(frame, cur_bar_image, axis=0)
         # convert result to BGR
         res = cv2.cvtColor(res, cv2.COLOR_BGRA2BGR)
         # DEBUG
-        # opencv_utils.show_image(res, "result")
+        # utils.show_image(res, "result")
         v_writer.write(res)
         cur_frame += 1
     print(f"Wrote {out_video_file}")
