@@ -48,5 +48,18 @@ Tool for segmenting endometrial implants in laparoscopic surgery videos.
   ```
 
 ### Usage
+```
+python demo.py -h
+```
+```
+usage: demo.py [-h] -i IN -m MODEL [-o OUT]
 
+optional arguments:
+  -h, --help            show this help message and exit
+  -i IN, --in IN        path to video or input folder containing videos
+  -m MODEL, --model MODEL
+                        path to input model or root folder containing multiple model subfolders with their
+                        respectie config.yaml files
+  -o OUT, --out OUT     path to output folder (default: [IN_PATH]_out)
+```
 
