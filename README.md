@@ -80,3 +80,15 @@ optional arguments:
 ### Django Application
 
 For ease of use a Python Django Application provides graphical UI for analyzing single videos.
+
+Setup
+
+```
+./setup_django_app.sh
+```
+
+Run Server
+
+```
+./run_django_app.sh
+```
