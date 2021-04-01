@@ -2,9 +2,17 @@
 
 Tool for segmenting endometrial implants in laparoscopic surgery videos.
 
+### Overview
+
+TODO
+
+### Citation
+
+TODO
+
 ### Installation
 
-**Pre-requisites**
+**Requirements**
 
 - [Python 3.8.2](https://www.python.org/downloads/release/python-382/)
 
@@ -47,10 +55,16 @@ Tool for segmenting endometrial implants in laparoscopic surgery videos.
   python -m pip install -r requirements.txt
   ```
 
+**Models**
+
+Pre-trained models can be downloaded from the [ENdometrial Implants Dataset (ENID) Homepage](http://ftp.itec.aau.at/datasets/ENID/) or [Zenodo page](10.5281/zenodo.4570969).
+
 ### Usage
+
 ```
 python demo.py -h
 ```
+
 ```
 usage: demo.py [-h] -i IN -m MODEL [-o OUT]
 
@@ -63,3 +77,6 @@ optional arguments:
   -o OUT, --out OUT     path to output folder (default: [IN_PATH]_out)
 ```
 
+### Django Application
+
+For ease of use a Python Django Application provides graphical UI for analyzing single videos.
