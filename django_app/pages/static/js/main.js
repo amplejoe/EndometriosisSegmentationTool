@@ -10,10 +10,3 @@
  *
  */
 
-// function clickedNavbar(el) {
-//     navElements = document.querySelectorAll(".topnav a");
-//     // clear classes
-//     for (el of navElements) { el.className = ""; }
-//     // set selected class
-//     el.className = 'active';
-// }
