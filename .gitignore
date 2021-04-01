@@ -131,6 +131,13 @@ dmypy.json
 # misc
 .vscode
 
+# MISC
 
 # secret django settings
 django_app/django_app/secret_settings.py
+
+# uploads
+django_app/pages/media/videos/*
+!django_app/pages/media/videos/readme.txt
+django_app/pages/media/results/*
+!django_app/pages/media/results/readme.txt
