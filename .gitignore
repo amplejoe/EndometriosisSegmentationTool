@@ -137,7 +137,7 @@ dmypy.json
 django_app/django_app/secret_settings.py
 
 # uploads
-django_app/pages/media/videos/*
-!django_app/pages/media/videos/readme.txt
-django_app/pages/media/results/*
-!django_app/pages/media/results/readme.txt
+django_app/media/videos/*
+!django_app/media/videos/readme.txt
+django_app/media/results/*
+!django_app/media/results/readme.txt

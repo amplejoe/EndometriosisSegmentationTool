@@ -122,3 +122,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = "/static/"
+
+# MEDIA FILES
+MEDIA_URL = "/media/"
+MEDIA_ROOT = Path(BASE_DIR).joinpath("media").resolve()
+
+# VIDEO_URL = "/media/videos/"
+# RESULTS_URL = "/media/results/"
+
+# VIDEO_ROOT = Path(BASE_DIR).joinpath("media/videos").resolve()
+# RESULTS_ROOT = Path(BASE_DIR).joinpath("media/results").resolve()

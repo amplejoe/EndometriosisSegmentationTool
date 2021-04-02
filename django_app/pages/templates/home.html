@@ -13,8 +13,8 @@ Copyright (c) 2021 Klagenfurt University
 {% extends 'base.html' %}
 
 {% block content %}
-    This is the homepage.
-    URL: {{request.path}}
+    {% include 'upload.html' %}
+    {% include 'videos.html' %}
 {% endblock %}
 
 

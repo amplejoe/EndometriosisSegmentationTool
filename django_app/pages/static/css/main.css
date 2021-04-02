@@ -15,4 +15,18 @@ body {
   margin-right: 2%;
 }
 
+#uploaded-videos {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  padding: 5px;
+}
 
+.titled-video {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2px;
+}

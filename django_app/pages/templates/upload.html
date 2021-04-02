@@ -1,0 +1,7 @@
+<form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+    <input type="text" name="title" placeholder="Enter Video Title here"><br>
+    <input type="file" name="video" accept="video/*">
+    <button type="submit"> Upload New Video </button>
+
+</form>

@@ -1,0 +1,13 @@
+<div id="uploaded-videos">
+
+    {% for video in videos %}
+    <div class='titled-video'>
+        <b>{{video.title}}</b>
+        <div>
+            <video width="200" height="200" controls >
+            <source src="{{video.video.url}}" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    {% endfor %}
+</div>
