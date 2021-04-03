@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 from .secret_settings import *
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -127,8 +128,8 @@ STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = Path(BASE_DIR).joinpath("media").resolve()
 
-# VIDEO_URL = "/media/videos/"
-# RESULTS_URL = "/media/results/"
-
-# VIDEO_ROOT = Path(BASE_DIR).joinpath("media/videos").resolve()
-# RESULTS_ROOT = Path(BASE_DIR).joinpath("media/results").resolve()
+# EXTERNALS
+EXTERNAL_BASE = Path(BASE_DIR).joinpath("externals").resolve()
+EXTERNAL_LIBS_PATH = Path(EXTERNAL_BASE).joinpath("libs").resolve()
+EXTERNAL_APPS_PATH = Path(EXTERNAL_BASE).joinpath("apps").resolve()
+sys.path = ["", EXTERNAL_LIBS_PATH.as_posix(), EXTERNAL_APPS_PATH.as_posix()] + sys.path

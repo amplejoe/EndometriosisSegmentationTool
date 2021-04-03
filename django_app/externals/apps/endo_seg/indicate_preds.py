@@ -5,7 +5,7 @@
 # Created: Monday, 29th March 2021 5:51:52 pm
 # Author: Andreas (amplejoe@gmail.com)
 # -----
-# Last Modified: Wednesday, 31st March 2021 2:55:02 am
+# Last Modified: Saturday, 3rd April 2021 3:07:29 am
 # Modified By: Andreas (amplejoe@gmail.com)
 # -----
 # Copyright (c) 2021 Klagenfurt University
@@ -96,7 +96,10 @@ def save_plot(path):
 
 def apply_conditional_fill(x_data, y_data):
     plt.fill_between(
-        x_data, y_data, where=np.logical_and(y_data >= LOW, y_data < MID_LOW), color=get_color(LOW)
+        x_data,
+        y_data,
+        where=np.logical_and(y_data >= LOW, y_data < MID_LOW),
+        color=get_color(LOW),
     )
     plt.fill_between(
         x_data,

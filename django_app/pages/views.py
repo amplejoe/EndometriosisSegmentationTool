@@ -1,12 +1,21 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Video
-from django.conf import settings
+from endo_seg import EndoSegPredictor
+
+# from django.conf import settings
+# from externals.apps.test_ing_file import *
+
+# from django.apps import testIngF
+
+# import EXTERNAL_APPS_PATH.test_ing_file
+
 
 # Create your views here.
 def home_view(request, *args, **kwargs):
 
     print("----------------------------------")
+    print(EndoSegPredictor)
     print(request)
 
     # upload new video
