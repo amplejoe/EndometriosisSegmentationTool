@@ -3,7 +3,7 @@
  * Created: Thursday, 1st April 2021 3:01:57 am
  * Author: Andreas (amplejoe@gmail.com)
  * -----
- * Last Modified: Thursday, 1st April 2021 3:17:55 am
+ * Last Modified: Saturday, 3rd April 2021 3:58:10 am
  * Modified By: Andreas (amplejoe@gmail.com)
  * -----
  * Copyright (c) 2021 Klagenfurt University
@@ -13,6 +13,17 @@
 body {
   margin-left: 2%;
   margin-right: 2%;
+}
+
+#video-upload-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#video-upload-form * {
+  margin: 2px;
 }
 
 #uploaded-videos {
@@ -29,4 +40,23 @@ body {
   align-items: center;
   justify-content: center;
   margin: 2px;
+}
+
+button {
+  background-color: #4daf4a; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+button:disabled {
+  background-color: #555555;
+}
+
+#video-upload-info {
+  color: #e41a1c;
 }

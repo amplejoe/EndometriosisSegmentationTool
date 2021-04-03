@@ -1,7 +1,16 @@
-<form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+<form id="video-upload-form" action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
 
-    <input type="text" name="title" placeholder="Enter Video Title here"><br>
-    <input type="file" name="video" accept="video/*">
-    <button type="submit"> Upload New Video </button>
+    <div>
+        <input type="text" name="title" size="55" placeholder="Enter video title"><br>
+    </div>
+
+    <div>
+        <input id="video-upload-input" type="file" name="video" accept="video/*" >
+        <button id="video-upload-button" type="submit" disabled> Upload </button>
+    </div>
+
+    <div id="video-upload-info">
+
+    </div>
 
 </form>

@@ -14,25 +14,20 @@ from endo_seg import EndoSegPredictor
 # Create your views here.
 def home_view(request, *args, **kwargs):
 
-    print("----------------------------------")
-    print(EndoSegPredictor)
-    print(request)
-
     # upload new video
     if request.method == "POST":
 
         title = request.POST.get("title")
         # video = request.POST.get("video")
         video = request.FILES["video"]
+        if len(title) == 0:
+            title = video.name
 
         content = Video(title=title, video=video)
         print("saving video")
-        print(title)
-        # print(video)
-        # print(settings.MEDIA_URL)
-        # print(settings.MEDIA_ROOT)
-        print(video.name)
-        print(video.size)
+        # print(title)
+        # print(video.name)
+        # print(video.size)
         # print(request.FILES['video'])
         content.save()
         return redirect("home")
@@ -43,7 +38,6 @@ def home_view(request, *args, **kwargs):
         "videos": videos,
     }
 
-    print("----------------------------------")
     return render(request, "home.html", context)
 
 
