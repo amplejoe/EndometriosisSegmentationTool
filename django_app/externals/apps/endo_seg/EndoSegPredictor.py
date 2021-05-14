@@ -180,7 +180,7 @@ class EndoSegPredictor:
                     out_dir, f"{model_name}{video_name}{video_ext}"
                 )
                 out_results_file = utils.join_paths(
-                    out_dir, f"{model_name}{video_name}.json"
+                    out_dir, f"{model_name}_{video_name}.json"
                 )
                 if not utils.exists_dir(out_dir):
                     utils.make_dir(out_dir)
