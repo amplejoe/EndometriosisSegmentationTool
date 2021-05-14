@@ -88,6 +88,8 @@ class EndoSegPredictor:
             frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
             # frame visualization
+            # INFO: boxes are hidden as they are deemed to distracting - see:
+            # https://detectron2.readthedocs.io/en/latest/_modules/detectron2/utils/video_visualizer.html
             visualization = visualizer.draw_instance_predictions(
                 frame, outputs["instances"].to("cpu")
             )
@@ -101,7 +103,7 @@ class EndoSegPredictor:
                     "num_predictions": len(outputs["instances"]),
                     "scores": outputs["instances"].scores.tolist(),
                     # INFO: too much data for now
-                    # "pred_boxes": [x.tolist() for x in outputs["instances"].pred_boxes],
+                    "pred_boxes": [x.tolist() for x in outputs["instances"].pred_boxes],
                     # "pred_maskes": outputs["instances"].pred_masks.tolist(),
                     "pred_classes": outputs["instances"].pred_classes.tolist(),
                 }
