@@ -15,33 +15,6 @@ body {
   margin-right: 2%;
 }
 
-#video-upload-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-#video-upload-form * {
-  margin: 2px;
-}
-
-#uploaded-videos {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  padding: 5px;
-}
-
-.titled-video {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 2px;
-}
-
 button {
   background-color: #4daf4a; /* Green */
   border: none;
@@ -57,6 +30,18 @@ button:disabled {
   background-color: #555555;
 }
 
-#video-upload-info {
-  color: #e41a1c;
+.display-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.display-row * {
+  margin: 2px;
+}
+
+#model-selection-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: start;
 }

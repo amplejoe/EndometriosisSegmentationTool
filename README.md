@@ -81,14 +81,22 @@ optional arguments:
 
 For ease of use a Python Django Application provides graphical UI for analyzing single videos.
 
-Setup
+#### Setup
 
 ```
 ./setup_django_app.sh
 ```
 
-Run Server
+#### Run Server
 
 ```
 ./run_django_app.sh
+```
+
+#### Clear App
+
+**WARNING**: this will clear the database and remove all previously conducted analyses.
+
+```
+./clear_django_app.sh
 ```

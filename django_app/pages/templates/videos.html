@@ -2,9 +2,11 @@
 
     {% for video in videos %}
     <div class='titled-video'>
-        <b>{{video.title}}</b>
-        <div>
-            <video width="200" height="200" controls >
+        <div class='video_info_wrapper'>
+            <b>{{video.title}}</b>
+        </div>
+        <div class='video-wrapper'>
+            <video width="256" height="144" controls >
             <source src="{{video.video.url}}" type="video/mp4">
             </video>
         </div>

@@ -141,3 +141,6 @@ django_app/media/videos/*
 !django_app/media/videos/readme.txt
 django_app/media/results/*
 !django_app/media/results/readme.txt
+# models
+django_app/media/models/*
+!django_app/media/models/readme.txt

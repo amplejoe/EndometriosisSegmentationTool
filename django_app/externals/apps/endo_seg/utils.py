@@ -100,6 +100,38 @@ def get_files(directory, *extensions):
     return all_files
 
 
+def get_nth_parentdir(file_path, n=0, full_path=False):
+    """Get nth parent directory of a file path, starting from the back (file).
+    (Default: 0, i.e. the first directory after a potential filename)
+    full_path: return full path until nth parent dir
+    """
+    p = to_path(file_path, as_string=False)
+    ret_path = None
+    if p.is_dir():
+        n = n - 1
+    if (n < 0) or (n > (len(p.parents) - 1)):
+        ret_path = p
+    else:
+        ret_path = p.parents[n]
+    if not full_path:
+        return ret_path.name
+    else:
+        return ret_path.as_posix()
+
+
+def get_subdirs(a_dir, full_path=True):
+    """Returns a list of immediate sub-directories of a path.
+    full_path (Default: True): get full path or sub-dir names only
+    """
+    path = to_path(a_dir, as_string=False)
+    if not path.is_dir():
+        return []
+    if full_path:
+        return [f.as_posix() for f in path.iterdir() if f.is_dir()]
+    else:
+        return [get_nth_parentdir(f) for f in path.iterdir() if f.is_dir()]
+
+
 def make_dir(path, show_info=False, overwrite=False):
     """Creates a directory
     Parameters
@@ -221,6 +253,7 @@ def add_suffix_to_file(file_path, suffix):
     fn = get_file_name(file_path)
     fe = get_file_ext(file_path)
     return join_paths(fp, f"{fn}{suffix}{fe}")
+
 
 def exec_shell_command(command, print_output=False):
     """Executes a shell command using the subprocess module.

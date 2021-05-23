@@ -2,13 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Video
 from endo_seg import EndoSegPredictor
+from pages.apps import PagesConfig as pg_config
 
 # from django.conf import settings
-# from externals.apps.test_ing_file import *
-
-# from django.apps import testIngF
-
-# import EXTERNAL_APPS_PATH.test_ing_file
 
 
 # Create your views here.
@@ -31,6 +27,9 @@ def home_view(request, *args, **kwargs):
         # print(request.FILES['video'])
         content.save()
         return redirect("home")
+
+    # TODO: add to dropdown list & select current model
+    print(pg_config.seg_models)
 
     # all uploaded videos
     videos = Video.objects.all()

@@ -13,8 +13,13 @@ Copyright (c) 2021 Klagenfurt University
 {% extends 'base.html' %}
 
 {% block content %}
-    {% include 'upload.html' %}
-    {% include 'videos.html' %}
+    <div class='display-row'>
+        {% include 'upload.html' %}
+        {% include 'model_selection.html' %}
+    </div>
+    <div class='display-row'>
+        {% include 'videos.html' %}
+    </div>
 {% endblock %}
 
 
