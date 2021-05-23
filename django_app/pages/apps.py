@@ -23,7 +23,10 @@ class PagesConfig(AppConfig):
                 continue
             model_file = model_file[0]
             cfg_file = cfg_file[0]
-            model = {"id": i, "name": utils.get_file_name(model_file), "model": model_file, "cfg": cfg_file}
+            selected = False
+            if i == 0:
+                selected = True
+            model = {"id": i, "name": utils.get_file_name(model_file), "model": model_file, "cfg": cfg_file, "selected": selected}
             self.seg_models.append(model)
 
         print(
