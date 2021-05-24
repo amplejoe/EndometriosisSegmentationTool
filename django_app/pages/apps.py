@@ -4,7 +4,7 @@ from endo_seg import utils
 import threading
 import time
 import random
-import tqdm
+from tqdm import tqdm
 from django.conf import settings
 
 MODEL_DIR = "./django_app/media/models"

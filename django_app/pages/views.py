@@ -3,10 +3,11 @@ from django.shortcuts import render, redirect
 from .models import Video
 from pages.apps import PagesConfig as pg_config
 import json
+from endo_seg import utils
 from django.conf import settings
 
 
-# from django.conf import settings
+VIDEO_EXT = [".mp4", ".avi", ".mov"]
 
 
 def handle_upload(request):
@@ -35,13 +36,34 @@ def handle_model(data):
 
 
 def get_results():
-    RESULTS_ROOT = utils.join_paths(settings.MEDIA_ROOT, "results/test")
-    model = get_selected_model()
+    results_root = utils.join_paths(settings.MEDIA_ROOT, "results")
+    vids = utils.get_files(results_root, *VIDEO_EXT)
+    return [v for v in vids if "_indicated" in v]
+
 
 def get_selected_model():
     for m in pg_config.seg_models:
         if m["selected"]:
             return m
+
+
+def update_processed_videos(videos, results):
+    model = get_selected_model()
+    model_name = model["name"]
+    results_for_model = [r for r in results if model["name"] in r]
+    for v in videos:
+        v_name = utils.get_file_name(v.video.url)
+        v_ext = utils.get_file_ext(v.video.url)
+        result_file_needed = f"{model_name}_{v_name}_indicated{v_ext}"
+        for r in results_for_model:
+            r_file = utils.get_file_name(r, True)
+            if result_file_needed == r_file:
+                # TODO set result
+                pass
+                # setattr(v, video.result, r)
+                # print(v.video.url)
+                # v.video._replace(url=r)
+
 
 # Create your views here.
 def home_view(request, *args, **kwargs):
@@ -62,11 +84,11 @@ def home_view(request, *args, **kwargs):
 
     # all uploaded videos
     videos = Video.objects.all()
+    results = get_results()
+    update_processed_videos(videos, results)
+    # print(videos)
+
     context = {"videos": videos, "models": pg_config.seg_models}
-
-    # os.makedirs("results/test")
-
-
 
     return render(request, "home.html", context)
 

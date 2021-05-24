@@ -152,13 +152,13 @@ class EndoSegPredictor:
                     self.output_root, rel_video_folder, video_name_full, model_name_full
                 )
                 out_video_file = utils.join_paths(
-                    out_dir, f"{model_name}{video_name}{video_ext}"
+                    out_dir, f"{model_name}_{video_name}{video_ext}"
                 )
                 out_results_file = utils.join_paths(
                     out_dir, f"{model_name}_{video_name}.json"
                 )
                 out_indicated_file = utils.join_paths(
-                    out_dir, f"{model_name}{video_name}_indicated{video_ext}"
+                    out_dir, f"{model_name}_{video_name}_indicated{video_ext}"
                 )
 
                 # is results file existing -> video has been fully analyzed, skip video
@@ -245,13 +245,13 @@ class EndoSegPredictor:
                     self.output_root, rel_video_folder, video_name_full, model_name_full
                 )
                 out_video_file = utils.join_paths(
-                    out_dir, f"{model_name}{video_name}{video_ext}"
+                    out_dir, f"{model_name}_{video_name}{video_ext}"
                 )
                 out_results_file = utils.join_paths(
                     out_dir, f"{model_name}_{video_name}.json"
                 )
                 out_indicated_file = utils.join_paths(
-                    out_dir, f"{model_name}{video_name}_indicated{video_ext}"
+                    out_dir, f"{model_name}_{video_name}_indicated{video_ext}"
                 )
                 if not utils.exists_dir(out_dir):
                     utils.make_dir(out_dir)
