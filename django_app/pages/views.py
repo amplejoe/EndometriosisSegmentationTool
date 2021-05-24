@@ -65,9 +65,9 @@ def refresh_model():
                 relative_result_path = "/media/" + utils.path_to_relative_path(
                     r, settings.MEDIA_ROOT
                 )
-                # setattr(v, "result", relative_result_path)
                 Video.objects.filter(video=v.video).update(result=relative_result_path)
-                # save entry
+                # alternative
+                # setattr(v, "result", relative_result_path)
                 # v.save()
                 break
 
