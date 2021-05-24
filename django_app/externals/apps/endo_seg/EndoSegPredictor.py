@@ -118,15 +118,83 @@ class EndoSegPredictor:
             if cur_frame > max_frames:
                 break
 
-    def run_predictions(self):
-        # sanity checks
+    def create_indication_video(self, out_video_file, out_results_file):
+        # exec indicate_preds.py
+        script_dir = utils.get_script_dir()
+        indicatepredspy = utils.join_paths(script_dir, "indicate_preds.py")
+        cmd_indicator = (
+            f"python {indicatepredspy} -v '{out_video_file}' -p '{out_results_file}'"
+        )
+        utils.exec_shell_command(
+            cmd_indicator,
+            False,
+        )
+
+    def is_work_needed(self):
+        """Checks if processing is required with current input."""
+
+        if not self.run_sanity_checks(print_info=False):
+            return False
+
+        for model in self.models:
+            model_dir = utils.get_file_path(model)
+            model_name_full = utils.get_file_name(model, True)
+            model_name = utils.get_file_name(model)
+            for video in self.videos:
+                # out paths
+                video_name_full = utils.get_file_name(video, True)
+                video_name = utils.get_file_name(video)
+                video_ext = utils.get_file_ext(video)
+                rel_video_folder = utils.get_file_path(
+                    utils.path_to_relative_path(video, self.video_root)
+                )
+                out_dir = utils.join_paths(
+                    self.output_root, rel_video_folder, video_name_full, model_name_full
+                )
+                out_video_file = utils.join_paths(
+                    out_dir, f"{model_name}{video_name}{video_ext}"
+                )
+                out_results_file = utils.join_paths(
+                    out_dir, f"{model_name}_{video_name}.json"
+                )
+                out_indicated_file = utils.join_paths(
+                    out_dir, f"{model_name}{video_name}_indicated{video_ext}"
+                )
+
+                # is results file existing -> video has been fully analyzed, skip video
+                if (
+                    utils.exists_file(out_video_file)
+                    and utils.exists_file(out_results_file)
+                    and utils.exists_file(out_indicated_file)
+                ):
+                    # segmentation results and out videos exist
+                    continue
+                else:
+                    # something is missing - precessing needed
+                    return True
+        # no work needed
+        return False
+
+    def run_sanity_checks(self, print_info=True):
         if len(self.videos) == 0:
-            utils.abort("No videos found.")
+            if print_info:
+                print("No videos found.")
+            return False
         if len(self.models) == 0:
-            utils.abort("No models found.")
+            if print_info:
+                print("No models found.")
+            return False
+        return True
+
+    def run_predictions(self, print_info=True, confirm_overwrite=True):
+
+        # sanity checks
+        if not self.run_sanity_checks(print_info=print_info):
+            return False
 
         # overwrite existing out paths
-        if not utils.confirm_delete_path(self.output_root, "n"):
+
+        if confirm_overwrite and not utils.confirm_delete_path(self.output_root, "n"):
             print(
                 "Using existing output folder - finished analyzed videos will not be overwritten!"
             )
@@ -182,14 +250,19 @@ class EndoSegPredictor:
                 out_results_file = utils.join_paths(
                     out_dir, f"{model_name}_{video_name}.json"
                 )
+                out_indicated_file = utils.join_paths(
+                    out_dir, f"{model_name}{video_name}_indicated{video_ext}"
+                )
                 if not utils.exists_dir(out_dir):
                     utils.make_dir(out_dir)
 
                 # is results file existing -> video has been fully analyzed, skip video
                 if utils.exists_file(out_results_file):
                     tqdm.write(
-                        f"Result file already exists: {out_results_file}. Skipping video..."
+                        f"Result file already exists: {out_results_file}. Skipping prediction..."
                     )
+                    if not utils.exists_file(out_indicated_file):
+                        self.create_indication_video(out_video_file, out_results_file)
                     continue
                 elif utils.exists_file(out_video_file):
                     tqdm.write(
@@ -251,11 +324,4 @@ class EndoSegPredictor:
                 utils.write_json(out_results_file, out_data)
                 tqdm.write(f"Wrote {out_results_file}")
 
-                # exec indicate_preds.py
-                script_dir = utils.get_script_dir()
-                indicatepredspy = utils.join_paths(script_dir, "indicate_preds.py")
-                cmd_indicator = f"python {indicatepredspy} -v '{out_video_file}' -p '{out_results_file}'"
-                utils.exec_shell_command(
-                    cmd_indicator,
-                    False,
-                )
+                self.create_indication_video(out_video_file, out_results_file)

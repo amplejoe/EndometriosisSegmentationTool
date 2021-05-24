@@ -1,9 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Video
-from endo_seg import EndoSegPredictor
 from pages.apps import PagesConfig as pg_config
 import json
+from django.conf import settings
+
 
 # from django.conf import settings
 
@@ -33,6 +34,15 @@ def handle_model(data):
     return redirect("home")
 
 
+def get_results():
+    RESULTS_ROOT = utils.join_paths(settings.MEDIA_ROOT, "results/test")
+    model = get_selected_model()
+
+def get_selected_model():
+    for m in pg_config.seg_models:
+        if m["selected"]:
+            return m
+
 # Create your views here.
 def home_view(request, *args, **kwargs):
 
@@ -54,8 +64,9 @@ def home_view(request, *args, **kwargs):
     videos = Video.objects.all()
     context = {"videos": videos, "models": pg_config.seg_models}
 
-    # for v in videos:
-    #     print(v)
+    # os.makedirs("results/test")
+
+
 
     return render(request, "home.html", context)
 

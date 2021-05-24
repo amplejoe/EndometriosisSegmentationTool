@@ -13,4 +13,4 @@
 ###
 
 # run sever
-python ./django_app/manage.py runserver
+python ./django_app/manage.py runserver --noreload
