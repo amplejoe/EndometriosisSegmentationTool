@@ -24,5 +24,6 @@ modelSelection.addEventListener("change", event => {
       body: JSON.stringify(data)
     }).then(res => {
       console.log("Request complete! response:", res);
+      location.reload();
     });
 });

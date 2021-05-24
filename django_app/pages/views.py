@@ -32,7 +32,8 @@ def handle_model(data):
         m["selected"] = False
         if int(data["selectID"]) == m["id"]:
             m["selected"] = True
-    return redirect("home")
+    # return render(request, 'home.html', {})
+    # return redirect("home")
 
 
 def get_results():
@@ -47,10 +48,12 @@ def get_selected_model():
             return m
 
 
-def update_processed_videos(videos, results):
+def refresh_model():
+    videos = Video.objects.all()
+    results = get_results()
     model = get_selected_model()
     model_name = model["name"]
-    results_for_model = [r for r in results if model["name"] in r]
+    results_for_model = [r for r in results if model_name in r]
     for v in videos:
         v_name = utils.get_file_name(v.video.url)
         v_ext = utils.get_file_ext(v.video.url)
@@ -58,11 +61,15 @@ def update_processed_videos(videos, results):
         for r in results_for_model:
             r_file = utils.get_file_name(r, True)
             if result_file_needed == r_file:
-                # TODO set result
-                pass
-                # setattr(v, video.result, r)
-                # print(v.video.url)
-                # v.video._replace(url=r)
+                # set result
+                relative_result_path = "/media/" + utils.path_to_relative_path(
+                    r, settings.MEDIA_ROOT
+                )
+                # setattr(v, "result", relative_result_path)
+                Video.objects.filter(video=v.video).update(result=relative_result_path)
+                # save entry
+                # v.save()
+                break
 
 
 # Create your views here.
@@ -79,17 +86,15 @@ def home_view(request, *args, **kwargs):
             if data["type"] == "model":
                 handle_model(data)
 
-    # TODO: add to dropdown list & select current model
-    # print(pg_config.seg_models)
+    # set result models according to selection
+    refresh_model()
 
     # all uploaded videos
     videos = Video.objects.all()
-    results = get_results()
-    update_processed_videos(videos, results)
-    # print(videos)
 
     context = {"videos": videos, "models": pg_config.seg_models}
 
+    print("should render!!")
     return render(request, "home.html", context)
 
 

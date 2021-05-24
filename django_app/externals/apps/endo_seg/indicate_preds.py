@@ -249,7 +249,7 @@ def main():
     # video writer
     v_writer = cv2.VideoWriter(
         out_video_file,
-        fourcc=cv2.VideoWriter_fourcc(*"mp4v"),
+        fourcc=cv2.VideoWriter_fourcc(*'avc1'),
         fps=float(fps),
         frameSize=(w, h + BAR_HEIGHT_PX),
         isColor=True,

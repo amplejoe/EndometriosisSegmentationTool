@@ -15,4 +15,6 @@
 # clear database
 python ./django_app/manage.py flush
 find ./django_app/media/videos ! -name 'readme.txt' -type f -exec rm -f {} +
+find ./django_app/media/videos/* -type d -exec rm -rf {} +
 find ./django_app/media/results ! -name 'readme.txt' -type f -exec rm -f {} +
+find ./django_app/media/results/* -type d -exec rm -rf {} +

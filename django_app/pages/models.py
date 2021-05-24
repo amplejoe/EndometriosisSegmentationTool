@@ -6,7 +6,7 @@ from django.db import models
 class Video(models.Model):
     title = models.CharField(max_length=100)
     video = models.FileField(upload_to="videos/")
-    # result = models.FileField()
+    result = models.CharField(max_length=255, default='')
 
     class Meta:
         verbose_name = "video"

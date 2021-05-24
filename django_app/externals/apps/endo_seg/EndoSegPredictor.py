@@ -38,11 +38,12 @@ OUT_SCALE = 1.2
 
 
 class EndoSegPredictor:
-    def __init__(self, *, videos, models, video_root, output_root):
+    def __init__(self, *, videos, models, video_root, output_root, print_info=True):
         self.videos = videos
         self.models = models
         self.video_root = video_root
         self.output_root = output_root
+        self.print_info = print_info
 
     # def visualize_predictions(self, im, predictions):
     #     # annotate image with predictions
@@ -82,7 +83,8 @@ class EndoSegPredictor:
             outputs = predictor(frame)
             end = timer()
             diff_ms = 1000 * (end - start)
-            tqdm.write(f"prediction time: {diff_ms: .2f} ms")
+            if self.print_info:
+                tqdm.write(f"prediction time: {diff_ms: .2f} ms")
 
             # make sure the frame is colored
             frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
@@ -133,7 +135,7 @@ class EndoSegPredictor:
     def is_work_needed(self):
         """Checks if processing is required with current input."""
 
-        if not self.run_sanity_checks(print_info=False):
+        if not self.run_sanity_checks():
             return False
 
         for model in self.models:
@@ -175,21 +177,21 @@ class EndoSegPredictor:
         # no work needed
         return False
 
-    def run_sanity_checks(self, print_info=True):
+    def run_sanity_checks(self):
         if len(self.videos) == 0:
-            if print_info:
+            if self.print_info:
                 print("No videos found.")
             return False
         if len(self.models) == 0:
-            if print_info:
+            if self.print_info:
                 print("No models found.")
             return False
         return True
 
-    def run_predictions(self, print_info=True, confirm_overwrite=True):
+    def run_predictions(self, confirm_overwrite=True):
 
         # sanity checks
-        if not self.run_sanity_checks(print_info=print_info):
+        if not self.run_sanity_checks():
             return False
 
         # overwrite existing out paths
@@ -279,7 +281,9 @@ class EndoSegPredictor:
                 # video writer
                 v_writer = cv2.VideoWriter(
                     out_video_file,
-                    fourcc=cv2.VideoWriter_fourcc(*"mp4v"),
+                    # not browser compatible
+                    # fourcc=cv2.VideoWriter_fourcc(*"mp4v"),
+                    fourcc=cv2.VideoWriter_fourcc(*'avc1'),
                     fps=float(fps),
                     frameSize=(w, h),
                     isColor=True,

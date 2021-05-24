@@ -7,7 +7,13 @@
         </div>
         <div class='video-wrapper'>
             <video width="256" height="144" controls >
-            <source src="{{video.video.url}}" type="video/mp4">
+            <source
+            {% if video.result != '' %}
+            src='{{video.result}}'
+            {% else %}
+            src='{{video.video.url}}'
+            {% endif %}
+            type="video/mp4">
             </video>
         </div>
     </div>

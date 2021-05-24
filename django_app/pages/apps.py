@@ -28,9 +28,10 @@ def segmentation_process(id):
             models=models,
             video_root=videos_root,
             output_root=results_root,
+            print_info=False
         )
         if ep.is_work_needed():
-            ep.run_predictions(print_info=False, confirm_overwrite = False)
+            ep.run_predictions(confirm_overwrite = False)
             tqdm.write(f"seg_process {id}: processing finished!")
 
 
