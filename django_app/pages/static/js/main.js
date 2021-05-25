@@ -13,3 +13,12 @@
 function refresh() {
     location.reload();
 }
+
+window.onload = function() {
+    // clear form on page reload
+    // vUpload = document.getElementById("video-upload-form")
+    // if (vUpload) {
+    //     vUpload.reset();
+    //     console.log("Upload form reset!")
+    // }
+};

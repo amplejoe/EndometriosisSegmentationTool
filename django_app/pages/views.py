@@ -1,10 +1,12 @@
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .models import Video
 from pages.apps import PagesConfig as pg_config
 import json
 from endo_seg import utils
 from django.conf import settings
+from django.contrib import messages
 
 
 VIDEO_EXT = [".mp4", ".avi", ".mov"]
@@ -19,11 +21,9 @@ def handle_upload(request):
 
     content = Video(title=title, video=video)
     print("saving video")
-    # print(title)
-    # print(video.name)
-    # print(video.size)
-    # print(request.FILES['video'])
     content.save()
+    # messages.success(request, 'Success!')
+    # return HttpResponseRedirect(request.path)
     return redirect("home")
 
 
@@ -60,7 +60,7 @@ def get_videos():
         v_ext = utils.get_file_ext(v.video.url)
         result_file_needed = f"{model_name}_{v_name}_indicated{v_ext}"
         # clear current result
-        Video.objects.filter(video=v.video).update(result='')
+        Video.objects.filter(video=v.video).update(result="")
         for r in results_for_model:
             r_file = utils.get_file_name(r, True)
             if result_file_needed == r_file:
@@ -78,27 +78,26 @@ def get_videos():
                 break
     return videos
 
+
 # Create your views here.
 def home_view(request, *args, **kwargs):
 
     # upload new video
     if request.method == "POST":
         type = request.POST.get("type")
+        print(request.POST)
 
         if type == "upload":
-            handle_upload(request)
+            return handle_upload(request)
         else:
             data = json.loads(request.body.decode("utf-8"))
             if data["type"] == "model":
                 handle_model(data)
 
-
     # all uploaded videos
     videos = get_videos()
 
     context = {"videos": videos, "models": pg_config.seg_models}
-
-    print("should render!!")
     return render(request, "home.html", context)
 
 
