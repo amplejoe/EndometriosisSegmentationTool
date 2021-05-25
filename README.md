@@ -4,11 +4,40 @@ Tool for segmenting endometrial implants in laparoscopic surgery videos.
 
 ### Overview
 
-TODO
+Demonstrating partial results of ongoing thorough studies on endometriosis segmentation, this web-based demo provides a user with the tools for segmenting endometrial implants in laparoscopic surgery videos. Following figure provides an overview of the tool's processing approach:
+
+![Overview](images/overview.png "Tool Overview")
+
+1. First a user provides the tool with an input video
+2. The video is analyzed using one of several provided segmentation models
+3. The analyses are utilized to additionally add a summarization bar that indicates frame-by-frame averaged segmentation confidences, while also marking the current video position.
 
 ### Citation
 
-TODO
+We kindly ask you to cite following papers if you include our work in your research:
+
+*Post-surgical Endometriosis Segmentation in Laparoscopic Videos*
+
+```
+@inproceedings{Leibetseder21a,
+    author    = {Andreas Leibetseder and
+                    Klaus Schoeffmann and
+                    J{\"{o}}rg Keckstein and
+                    Simon Keckstein},
+    editor    = {TODO},
+    title     = {Post-surgical Endometriosis Segmentation in Laparoscopic Videos},
+    booktitle = {2020 International Conference on Content-Based Multimedia Indexing,
+                  {CBMI} 2020, Lille, France, June 28-30, 2020},
+    pages     = {TODO},
+    publisher = ,
+    year      = {2020},
+    url       = {TODO},
+    doi       = {TODO},
+    timestamp = {TODO},
+    biburl    = {TODO},
+    bibsource = {TODO}
+}
+```
 
 ### Installation
 
