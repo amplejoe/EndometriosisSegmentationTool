@@ -6,6 +6,7 @@ import time
 import random
 from tqdm import tqdm
 from django.conf import settings
+import os
 
 MODEL_DIR = "./django_app/media/models"
 VIDEO_EXT = [".mp4", ".avi", ".mov"]
@@ -28,10 +29,10 @@ def segmentation_process(id):
             models=models,
             video_root=videos_root,
             output_root=results_root,
-            print_info=False
+            print_info=False,
         )
         if ep.is_work_needed():
-            ep.run_predictions(confirm_overwrite = False)
+            ep.run_predictions(confirm_overwrite=False)
             tqdm.write(f"seg_process {id}: processing finished!")
 
 
@@ -43,6 +44,8 @@ class PagesConfig(AppConfig):
 
     # executed once and first in the application
     def ready(self):
+        if os.environ.get('loadcfg') == 'no':
+            return
         # get models and cfgs
         model_dirs = utils.get_subdirs(MODEL_DIR)
         for i, md in enumerate(model_dirs):
