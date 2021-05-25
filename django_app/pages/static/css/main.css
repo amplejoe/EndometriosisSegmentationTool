@@ -73,3 +73,8 @@ button:disabled {
 .overview img {
   object-fit: contain;
 }
+
+.overview-arrow {
+  display: flex;
+  align-items: center;
+}

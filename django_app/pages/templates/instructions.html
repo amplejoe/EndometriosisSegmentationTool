@@ -17,25 +17,39 @@ Copyright (c) 2021 Klagenfurt University
     <h2>Overview</h2>
 
     <p>
-        Demonstrating partial results of ongoing thorough studies on endometriosis segmentation, this web-based demo provides a user with the tools for segmenting endometrial implants in laparoscopic surgery videos.
+        Demonstrating partial results of ongoing thorough studies on endometriosis segmentation, this web-based demo provides a user with the tools for segmenting endometrial implants in laparoscopic surgery videos. Following figure provides an overview of the tool's processing approach:
     </p>
 
     <div class="overview">
         {% load static %}
         <img src="{% static 'images/1.png' %}" alt="">
-        <div>
+        <div class="overview-arrow">
             <i class="fas fa-arrow-right fa-2x"></i>
         </div>
         <img src="{% static 'images/2.png' %}" alt="">
-        <div>
+        <div class="overview-arrow">
             <i class="fas fa-arrow-right fa-2x"></i>
         </div>
         <img src="{% static 'images/3.png' %}" alt="">
     </div>
+    <ol>
+        <li>First a user provides the tool with an input video</li>
+        <li>The video is analyzed using one of several provided segmentation models</li>
+        <li>The analyses are utilized to additionally add a summarization bar that indicates frame-by-frame averaged segmentation confidences, while also marking the current video position.</li>
+    </ol>
+
 
     <h2>Instructions</h2>
 
-    the tool's <a href="https://github.com/amplejoe/EndometriosisSegmentationTool">GitHub project</a>
+    <ol>
+        <li>Download the desired pre-trained models from <a href="http://ftp.itec.aau.at/datasets/ENID/" target="_blank">ENID: The ITEC Endometrial Implants Dataset</a></li>
+        <li>Extract the models into <tt>[project_folder]/django_app/media/models</tt> (create a subfolder for each model!)</li>
+        <li>Start server and upload a video for analysis (please note that long videos can take a while to analyze)</li>
+        <li>Wait for analysis to finish - the status can be seen by observing the server's console output but simply pressing the refresh page button (<i class="fas fa-sync-alt"></i>) occasionally may suffice</li>
+        <li>The uploaded videos should eventually be replaced by the ones containing the analysis results (the spinning <i class="fas fa-cog"></i> will disappear)</li>
+    </ol>
+
+
 
 
 {% endblock %}
