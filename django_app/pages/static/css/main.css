@@ -24,6 +24,7 @@ button {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  cursor: pointer;
 }
 
 button:disabled {
@@ -44,4 +45,31 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: start;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.code {
+  background: #f1eef6;
+  padding: 5px;
+}
+
+.overview {
+  display: flex;
+  /* flex-flow: row nowrap; */
+  justify-content: center;
+  width: 96%;
+  height: 200px;
+}
+
+.overview > * {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.overview img {
+  object-fit: contain;
 }

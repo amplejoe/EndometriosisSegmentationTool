@@ -15,8 +15,10 @@ Copyright (c) 2021 Klagenfurt University
 {% block content %}
     <div class='display-row'>
         {% include 'upload.html' %}
-        {% include 'model_selection.html' %}
-        
+        <div class='flex-column'>
+            {% include 'model_selection.html' %}
+            <button onclick='refresh()'><i class="fas fa-sync-alt fa-lg"></i></button>
+        </div>
     </div>
     <div class='display-row'>
         {% include 'videos.html' %}

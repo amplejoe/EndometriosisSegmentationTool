@@ -1,0 +1,37 @@
+#footer {
+  background-color: #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  position: fixed;
+  bottom: 10px;
+  width: 96%;
+}
+
+.footer-text {
+  text-align: center;
+  padding: 2px;
+}
+
+#footer a:link {
+  color: #9ecae1;
+  background-color: transparent;
+  text-decoration: none;
+}
+#footer a:visited {
+  color: #9ecae1;
+  background-color: transparent;
+  text-decoration: none;
+}
+#footer a:hover {
+  color: #3182bd;
+  background-color: transparent;
+  text-decoration: underline;
+}
+#footer a:active {
+  color: #deebf7;
+  background-color: transparent;
+  text-decoration: underline;
+}

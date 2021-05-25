@@ -4,6 +4,9 @@
     <div class='titled-video'>
         <div class='video_info_wrapper'>
             <b>{{video.title}}</b>
+            {% if video.result == '' %}
+            <i class="fas fa-cog fa-spin"></i>
+            {% endif %}
         </div>
         <div class='video-wrapper'>
             <video width="256" height="144" controls >

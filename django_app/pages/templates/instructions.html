@@ -13,8 +13,31 @@ Copyright (c) 2021 Klagenfurt University
 {% extends 'base.html' %}
 
 {% block content %}
-    This is the instructions page.
-    URL: {{request.path}}
+
+    <h2>Overview</h2>
+
+    <p>
+        Demonstrating partial results of ongoing thorough studies on endometriosis segmentation, this web-based demo provides a user with the tools for segmenting endometrial implants in laparoscopic surgery videos.
+    </p>
+
+    <div class="overview">
+        {% load static %}
+        <img src="{% static 'images/1.png' %}" alt="">
+        <div>
+            <i class="fas fa-arrow-right fa-2x"></i>
+        </div>
+        <img src="{% static 'images/2.png' %}" alt="">
+        <div>
+            <i class="fas fa-arrow-right fa-2x"></i>
+        </div>
+        <img src="{% static 'images/3.png' %}" alt="">
+    </div>
+
+    <h2>Instructions</h2>
+
+    the tool's <a href="https://github.com/amplejoe/EndometriosisSegmentationTool">GitHub project</a>
+
+
 {% endblock %}
 
 

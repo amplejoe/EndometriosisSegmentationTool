@@ -22,36 +22,37 @@ let showUserInfo = (msg) => {
     i.innerHTML = msg;
 }
 
+if (fileUpload) {
+    fileUpload.addEventListener("change", event => {
+        if (event.target.files.length == 0) {
+            activateUploadButton(false);
+            showUserInfo("");
+            return;
+        }
+        const file = event.target.files[0];
+        console.log(file);
 
-fileUpload.addEventListener("change", event => {
-    if (event.target.files.length == 0) {
-        activateUploadButton(false);
-        showUserInfo("");
-        return;
-    }
-    const file = event.target.files[0];
-    console.log(file);
+        // check if video is valid
+        const videoEl = document.createElement("video");
+        videoEl.src = window.URL.createObjectURL(file);
 
-    // check if video is valid
-    const videoEl = document.createElement("video");
-    videoEl.src = window.URL.createObjectURL(file);
+        videoEl.onloadedmetadata = event => {
+            window.URL.revokeObjectURL(videoEl.src);
+            const { name, type } = file;
+            const { videoWidth, videoHeight } = videoEl;
 
-    videoEl.onloadedmetadata = event => {
-        window.URL.revokeObjectURL(videoEl.src);
-        const { name, type } = file;
-        const { videoWidth, videoHeight } = videoEl;
+            console.log(`Filename: ${name} - Type: ${type} - Size: ${videoWidth}px x ${videoHeight}px`);
+            // activate upload button
+            showUserInfo("");
+            activateUploadButton(true);
+        }
 
-        console.log(`Filename: ${name} - Type: ${type} - Size: ${videoWidth}px x ${videoHeight}px`);
-        // activate upload button
-        showUserInfo("");
-        activateUploadButton(true);
-    }
-
-    videoEl.onerror = () => {
-        let msg = 'Please upload a video file!';
-        // console.log(msg);
-        showUserInfo(msg);
-        activateUploadButton(false);
-        return;
-    }
-});
+        videoEl.onerror = () => {
+            let msg = 'Please upload a video file!';
+            // console.log(msg);
+            showUserInfo(msg);
+            activateUploadButton(false);
+            return;
+        }
+    });
+}

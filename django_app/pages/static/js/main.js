@@ -10,3 +10,6 @@
  *
  */
 
+function refresh() {
+    location.reload();
+}

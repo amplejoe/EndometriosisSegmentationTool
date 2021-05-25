@@ -25,8 +25,10 @@ Copyright (c) 2021 Klagenfurt University
         {% load static %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/header.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/content.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/videos.css' %}">
+        <script src="{% static '3rd-party/fontawesome-5.15.3/js/all.js' %}" async defer></script>
         <script src="{% static 'js/utils.js' %}" async defer></script>
         <script src="{% static 'js/main.js' %}" async defer></script>
         <script src="{% static 'js/fileUpload.js' %}" async defer></script>
@@ -45,6 +47,10 @@ Copyright (c) 2021 Klagenfurt University
         <div id="content">
             {% block content %}
             {% endblock %}
+        </div>
+
+        <div id="footer">
+            {% include 'footer.html' %}
         </div>
     </body>
 </html>

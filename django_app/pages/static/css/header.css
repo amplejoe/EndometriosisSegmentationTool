@@ -17,6 +17,9 @@
   justify-content: center;
   align-items: center;
   color: white;
+  position: fixed;
+  top: 10px;
+  width: 96%;
 }
 
 /* Add a black background color to the top navigation */

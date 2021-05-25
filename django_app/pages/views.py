@@ -48,16 +48,19 @@ def get_selected_model():
             return m
 
 
-def refresh_model():
+def get_videos():
     videos = Video.objects.all()
     results = get_results()
     model = get_selected_model()
     model_name = model["name"]
     results_for_model = [r for r in results if model_name in r]
+    # update video results according to selected model
     for v in videos:
         v_name = utils.get_file_name(v.video.url)
         v_ext = utils.get_file_ext(v.video.url)
         result_file_needed = f"{model_name}_{v_name}_indicated{v_ext}"
+        # clear current result
+        Video.objects.filter(video=v.video).update(result='')
         for r in results_for_model:
             r_file = utils.get_file_name(r, True)
             if result_file_needed == r_file:
@@ -65,12 +68,15 @@ def refresh_model():
                 relative_result_path = "/media/" + utils.path_to_relative_path(
                     r, settings.MEDIA_ROOT
                 )
-                Video.objects.filter(video=v.video).update(result=relative_result_path)
-                # alternative
-                # setattr(v, "result", relative_result_path)
+                # alternative: update database (expensive for many videos)
+                # Video.objects.filter(video=v.video).update(result=relative_result_path)
+
+                # set current result
+                setattr(v, "result", relative_result_path)
+                # omit saving to db as this change is temporary
                 # v.save()
                 break
-
+    return videos
 
 # Create your views here.
 def home_view(request, *args, **kwargs):
@@ -86,11 +92,9 @@ def home_view(request, *args, **kwargs):
             if data["type"] == "model":
                 handle_model(data)
 
-    # set result models according to selection
-    refresh_model()
 
     # all uploaded videos
-    videos = Video.objects.all()
+    videos = get_videos()
 
     context = {"videos": videos, "models": pg_config.seg_models}
 
