@@ -1,6 +1,7 @@
 <form id="model-change-form" action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
   <div id="model-selection-wrapper">
       <span>Model Selection:</span>
+      {% if models %}
       <select id="model-selection" name="models" id="models">
         {% for model in models %}
           <option value="{{model.id}}"
@@ -10,6 +11,9 @@
           >{{model.name}}</option>
         {% endfor %}
       </select>
+      {% else %}
+        <span class="error">No models found! Please <a href="http://ftp.itec.aau.at/datasets/ENID/" target="_blank">download</a> at least one, extract it into <tt>django_app/media/models</tt> and restart the server.</span>
+      {% endif %}
       <input type="hidden" id="model-csrf" name="csrf" value="asd">
   </div>
 </form>

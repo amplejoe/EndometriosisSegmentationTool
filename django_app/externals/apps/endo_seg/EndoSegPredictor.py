@@ -20,6 +20,7 @@ import ctypes
 import os
 from timeit import default_timer as timer
 from collections import OrderedDict
+from .PredictionIndicator import PredictionIndicator
 
 # detectron2: https://github.com/facebookresearch/detectron2
 from detectron2.data.datasets import register_coco_instances
@@ -28,6 +29,7 @@ from detectron2.config import get_cfg
 from detectron2.data import MetadataCatalog
 from detectron2.utils.video_visualizer import VideoVisualizer
 from detectron2.utils.visualizer import ColorMode, Visualizer
+from . import app_cfg
 
 if os.name == "nt":
     ctypes.cdll.LoadLibrary("caffe2_nvrtc.dll")
@@ -120,18 +122,6 @@ class EndoSegPredictor:
             if cur_frame > max_frames:
                 break
 
-    def create_indication_video(self, out_video_file, out_results_file):
-        # exec indicate_preds.py
-        script_dir = utils.get_script_dir()
-        indicatepredspy = utils.join_paths(script_dir, "indicate_preds.py")
-        cmd_indicator = (
-            f"python {indicatepredspy} -v '{out_video_file}' -p '{out_results_file}'"
-        )
-        utils.exec_shell_command(
-            cmd_indicator,
-            False,
-        )
-
     def is_work_needed(self):
         """Checks if processing is required with current input."""
 
@@ -154,13 +144,14 @@ class EndoSegPredictor:
                     self.output_root, rel_video_folder, video_name_full, model_name_full
                 )
                 out_video_file = utils.join_paths(
-                    out_dir, f"{model_name}_{video_name}{video_ext}"
+                    out_dir, f"{model_name}_{video_name}{app_cfg.OUT_VIDEO_EXT}"
                 )
                 out_results_file = utils.join_paths(
                     out_dir, f"{model_name}_{video_name}.json"
                 )
                 out_indicated_file = utils.join_paths(
-                    out_dir, f"{model_name}_{video_name}_indicated{video_ext}"
+                    out_dir,
+                    f"{model_name}_{video_name}_indicated{app_cfg.OUT_VIDEO_EXT}",
                 )
 
                 # is results file existing -> video has been fully analyzed, skip video
@@ -247,13 +238,14 @@ class EndoSegPredictor:
                     self.output_root, rel_video_folder, video_name_full, model_name_full
                 )
                 out_video_file = utils.join_paths(
-                    out_dir, f"{model_name}_{video_name}{video_ext}"
+                    out_dir, f"{model_name}_{video_name}{app_cfg.OUT_VIDEO_EXT}"
                 )
                 out_results_file = utils.join_paths(
                     out_dir, f"{model_name}_{video_name}.json"
                 )
                 out_indicated_file = utils.join_paths(
-                    out_dir, f"{model_name}_{video_name}_indicated{video_ext}"
+                    out_dir,
+                    f"{model_name}_{video_name}_indicated{app_cfg.OUT_VIDEO_EXT}",
                 )
                 if not utils.exists_dir(out_dir):
                     utils.make_dir(out_dir)
@@ -264,7 +256,10 @@ class EndoSegPredictor:
                         f"Result file already exists: {out_results_file}. Skipping prediction..."
                     )
                     if not utils.exists_file(out_indicated_file):
-                        self.create_indication_video(out_video_file, out_results_file)
+                        pi = PredictionIndicator(
+                            video_path=out_video_file, predictions_path=out_results_file
+                        )
+                        pi.create_indication_video()
                     continue
                 elif utils.exists_file(out_video_file):
                     tqdm.write(
@@ -281,9 +276,7 @@ class EndoSegPredictor:
                 # video writer
                 v_writer = cv2.VideoWriter(
                     out_video_file,
-                    # not browser compatible
-                    # fourcc=cv2.VideoWriter_fourcc(*"mp4v"),
-                    fourcc=cv2.VideoWriter_fourcc(*'avc1'),
+                    fourcc=cv2.VideoWriter_fourcc(*app_cfg.OUT_VIDEO_FOURCC),
                     fps=float(fps),
                     frameSize=(w, h),
                     isColor=True,
@@ -301,7 +294,7 @@ class EndoSegPredictor:
                     desc="frames",
                     total=num_frames,
                     position=0,
-                    leave=True,
+                    leave=False,
                 ):
 
                     # DEBUG: test image output
@@ -328,4 +321,7 @@ class EndoSegPredictor:
                 utils.write_json(out_results_file, out_data)
                 tqdm.write(f"Wrote {out_results_file}")
 
-                self.create_indication_video(out_video_file, out_results_file)
+                pi = PredictionIndicator(
+                    video_path=out_video_file, predictions_path=out_results_file
+                )
+                pi.create_indication_video()

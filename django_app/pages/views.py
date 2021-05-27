@@ -9,7 +9,8 @@ from django.conf import settings
 from django.contrib import messages
 
 
-VIDEO_EXT = [".mp4", ".avi", ".mov"]
+VIDEO_EXT = [".mp4", ".avi", ".mov", ".webm"]
+RESULT_EXT = ".webm"
 
 
 def handle_upload(request):
@@ -46,19 +47,24 @@ def get_selected_model():
     for m in pg_config.seg_models:
         if m["selected"]:
             return m
+    return None
 
 
 def get_videos():
     videos = Video.objects.all()
     results = get_results()
     model = get_selected_model()
+
+    if model == None:
+        return videos
+
     model_name = model["name"]
     results_for_model = [r for r in results if model_name in r]
     # update video results according to selected model
     for v in videos:
         v_name = utils.get_file_name(v.video.url)
-        v_ext = utils.get_file_ext(v.video.url)
-        result_file_needed = f"{model_name}_{v_name}_indicated{v_ext}"
+        # v_ext = utils.get_file_ext(v.video.url)
+        result_file_needed = f"{model_name}_{v_name}_indicated{RESULT_EXT}"
         # clear current result
         Video.objects.filter(video=v.video).update(result="")
         for r in results_for_model:
@@ -96,6 +102,7 @@ def home_view(request, *args, **kwargs):
 
     # all uploaded videos
     videos = get_videos()
+    print(videos)
 
     context = {"videos": videos, "models": pg_config.seg_models}
     return render(request, "home.html", context)

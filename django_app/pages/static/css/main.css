@@ -78,3 +78,7 @@ button:disabled {
   display: flex;
   align-items: center;
 }
+
+.error {
+  color: #de2d26;
+}

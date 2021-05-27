@@ -124,6 +124,12 @@ Make sure `cfg.sh` is set up to include the correct path to Python 3.x (aliases 
 ./run_django_app.sh
 ```
 
+**Optional**: to run tool using a specific GPU device (e.g. `1`) set following environment variable:
+
+```
+CUDA_VISIBLE_DEVICES=1 ./run_django_app.sh
+```
+
 #### Clear App
 
 **WARNING**: this will clear the database and remove all previously conducted analyses.
