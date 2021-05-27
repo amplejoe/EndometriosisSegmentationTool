@@ -12,8 +12,11 @@
 #
 ###
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+source $SCRIPT_DIR/cfg.sh
+
 # clear database
-loadcfg=no python ./django_app/manage.py flush
+loadcfg=no $PYTHON_INTERPRETER ./django_app/manage.py flush
 find ./django_app/media/videos ! -name 'readme.txt' -type f -exec rm -f {} +
 find ./django_app/media/videos/* -type d -exec rm -rf {} +
 find ./django_app/media/results ! -name 'readme.txt' -type f -exec rm -f {} +

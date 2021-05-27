@@ -12,5 +12,8 @@
 #
 ###
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+source $SCRIPT_DIR/cfg.sh
+
 # run sever
-python ./django_app/manage.py runserver --noreload
+$PYTHON_INTERPRETER ./django_app/manage.py runserver --noreload

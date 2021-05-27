@@ -16,7 +16,7 @@ Demonstrating partial results of ongoing thorough studies on endometriosis segme
 
 We kindly ask you to cite following papers if you include our work in your research:
 
-*Post-surgical Endometriosis Segmentation in Laparoscopic Videos*
+_Post-surgical Endometriosis Segmentation in Laparoscopic Videos_
 
 ```
 @inproceedings{Leibetseder21a,
@@ -111,6 +111,8 @@ optional arguments:
 For ease of use a Python Django Application provides graphical UI for analyzing single videos.
 
 #### Setup
+
+Make sure `cfg.sh` is set up to include the correct path to Python 3.x (aliases do not work in bash files).
 
 ```
 ./setup_django_app.sh

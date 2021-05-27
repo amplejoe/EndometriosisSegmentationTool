@@ -12,6 +12,9 @@
 #
 ###
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+source $SCRIPT_DIR/../cfg.sh
+
 # migrate db
-python ./django_app/manage.py makemigrations
-python ./django_app/manage.py migrate
+$PYTHON_INTERPRETER ./django_app/manage.py makemigrations
+$PYTHON_INTERPRETER ./django_app/manage.py migrate
