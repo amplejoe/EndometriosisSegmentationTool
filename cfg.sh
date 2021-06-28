@@ -1,4 +1,4 @@
 #!/bin/bash
 
-# path to python3 (change accordingly)
-PYTHON_INTERPRETER=python3.8
+# path to Python 3.x (change accordingly)
+PYTHON_INTERPRETER=python
