@@ -19,23 +19,39 @@ We kindly ask you to cite following papers if you include our work in your resea
 _Post-surgical Endometriosis Segmentation in Laparoscopic Videos_
 
 ```
-@inproceedings{Leibetseder21a,
-    author    = {Andreas Leibetseder and
-                    Klaus Schoeffmann and
-                    J{\"{o}}rg Keckstein and
-                    Simon Keckstein},
-    editor    = {TODO},
-    title     = {Post-surgical Endometriosis Segmentation in Laparoscopic Videos},
-    booktitle = {2020 International Conference on Content-Based Multimedia Indexing,
-                  {CBMI} 2020, Lille, France, June 28-30, 2020},
-    pages     = {TODO},
-    publisher = ,
-    year      = {2020},
-    url       = {TODO},
-    doi       = {TODO},
-    timestamp = {TODO},
-    biburl    = {TODO},
-    bibsource = {TODO}
+@article{DBLP:journals/mta/LeibetsederSKK22,
+  author    = {Andreas Leibetseder and
+               Klaus Schoeffmann and
+               J{\"{o}}rg Keckstein and
+               Simon Keckstein},
+  title     = {Endometriosis detection and localization in laparoscopic gynecology},
+  journal   = {Multim. Tools Appl.},
+  volume    = {81},
+  number    = {5},
+  pages     = {6191--6215},
+  year      = {2022},
+  url       = {https://doi.org/10.1007/s11042-021-11730-1},
+  doi       = {10.1007/s11042-021-11730-1},
+  timestamp = {Thu, 03 Mar 2022 09:23:23 +0100},
+  biburl    = {https://dblp.org/rec/journals/mta/LeibetsederSKK22.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+@inproceedings{DBLP:conf/cbmi/LeibetsederSKK21,
+  author    = {Andreas Leibetseder and
+               Klaus Schoeffmann and
+               J{\"{o}}rg Keckstein and
+               Simon Keckstein},
+  title     = {Post-surgical Endometriosis Segmentation in Laparoscopic Videos},
+  booktitle = {18th International Conference on Content-Based Multimedia Indexing,
+               {CBMI} 2021, Lille, France, June 28-30, 2021},
+  pages     = {1--4},
+  publisher = {{IEEE}},
+  year      = {2021},
+  url       = {https://doi.org/10.1109/CBMI50038.2021.9461900},
+  doi       = {10.1109/CBMI50038.2021.9461900},
+  timestamp = {Tue, 29 Jun 2021 17:37:02 +0200},
+  biburl    = {https://dblp.org/rec/conf/cbmi/LeibetsederSKK21.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 ```
 
