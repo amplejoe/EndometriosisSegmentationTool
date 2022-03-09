@@ -36,6 +36,7 @@ _Post-surgical Endometriosis Segmentation in Laparoscopic Videos_
   biburl    = {https://dblp.org/rec/journals/mta/LeibetsederSKK22.bib},
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
+
 @inproceedings{DBLP:conf/cbmi/LeibetsederSKK21,
   author    = {Andreas Leibetseder and
                Klaus Schoeffmann and
